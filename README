@@ -1,0 +1,23 @@
+Tasks:
+1) Install kafka (and its dependencies) on the host using your preferred configuration management system. Leave a README file in the home directory describing what tool you used and where we can see the configuration (if you install from a remote machine, please upload all relevant files to the home directory)
+
+2) Write a script to test the broker: it should use kafka CLI to simply send a message with some text and then receive it, if the message
+is received properly, the tool should return 0 and print "SUCCESS". Indicate the location of the script in the README file.
+
+Solution:
+0. Hostname should be resolvable. Edit '/etc/hosts' if necessary.
+1. Unpack saltformulas and pillars from salt-masterless.tgz to '/srv'
+2. Copy file 'minion' to '/etc/salt/minion' or add to it lines below:
+        file_roots:
+            base:
+                - /srv/salt-masterless/salt/roots
+                - /srv/salt-masterless/formulas
+        pillar_roots:
+            base:
+                - /srv/salt-masterless/salt/pillars
+3. Dont forget to restart salt-minion service
+4. sudo salt-call --local state.highstate
+   This will apply all fromulas and install java, zookeeper and kafka
+5. Run test script ./test.sh.
+   Check that it is completed with 'SUCCESS' string.
+
